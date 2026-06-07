@@ -89,7 +89,3 @@ git clone https://github.com/shashikant-38/fitness-tracker-microservices.git
 * Monitoring with Prometheus & Grafana
 * Kubernetes Deployment
 * CI/CD Pipeline
-
-## Author
-
-Shashikant Patil
