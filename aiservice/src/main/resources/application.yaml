@@ -24,3 +24,8 @@ spring:
 kafka:
   topic:
     name: activity-events
+
+gemini:
+  api:
+    url: ${GEMINI_URL}
+    key: ${GEMINI_KEY}
