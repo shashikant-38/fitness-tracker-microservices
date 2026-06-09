@@ -86,6 +86,6 @@ git clone https://github.com/shashikant-38/fitness-tracker-microservices.git
 * API Gateway
 * Docker Containerization
 * JWT Authentication
-* Monitoring with Prometheus & Grafana
+* Monitoring with Prometheus and Grafana
 * Kubernetes Deployment
 * CI/CD Pipeline
