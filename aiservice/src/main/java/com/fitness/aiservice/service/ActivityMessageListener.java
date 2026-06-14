@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ActivityMessageListener {
 
+
+    private final ActivityAiSerivice aiService;
+
     @KafkaListener(
             topics = "${kafka.topic.name}",
             groupId = "activity-processor-group"
