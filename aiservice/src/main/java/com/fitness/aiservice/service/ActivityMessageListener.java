@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class ActivityMessageListener {
 
 
-    private final ActivityAiSerivice aiService;
+    private final ActivityAiService activityAiService;
 
     @KafkaListener(
             topics = "${kafka.topic.name}",
@@ -24,5 +24,7 @@ public class ActivityMessageListener {
         log.info("UserId: {}", activity.getUserId());
         log.info("Type: {}", activity.getType());
         log.info("Calories: {}", activity.getCaloriesBurned());
+
+        activityAiService.generateRecommendation(activity);
     }
 }

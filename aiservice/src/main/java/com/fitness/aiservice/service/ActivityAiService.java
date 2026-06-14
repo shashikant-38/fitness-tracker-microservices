@@ -1,15 +1,17 @@
 package com.fitness.aiservice.service;
 
-import com.fitness.aiservice.model.Activity;
-import com.fitness.aiservice.service.GeminiService;
+import com.fitness.activityservice.model.Activity;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
-public class ActivityAiSerivice {
+@AllArgsConstructor
+public class ActivityAiService {
 
     private final GeminiService geminiService;
 
