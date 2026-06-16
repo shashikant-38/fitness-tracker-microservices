@@ -18,7 +18,7 @@ public class GeminiService {
     private String geminiApiUrl;
 
     @Value("${gemini.api.key}" )
-    private String geminiApiKey;
+    private String geminiApiKey ;
 
 
     public GeminiService(WebClient.Builder webClientBuilder){
