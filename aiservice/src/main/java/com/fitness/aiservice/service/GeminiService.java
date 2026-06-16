@@ -39,7 +39,7 @@ public class GeminiService {
                 .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(String.class)
-                .block();
+                .block() ;
 //api call using resonse obj
         return response;
     }
