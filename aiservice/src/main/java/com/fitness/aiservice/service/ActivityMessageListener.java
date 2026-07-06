@@ -13,13 +13,11 @@ public class ActivityMessageListener {
 
 
     private final ActivityAiService activityAiService;
-
     @KafkaListener(
             topics = "${kafka.topic.name}",
             groupId = "activity-processor-group"
     )
     public void processActivity(Activity activity) {
-
         log.info(" Activity received in AI service");
         log.info("UserId: {}", activity.getUserId());
         log.info("Type: {}", activity.getType());

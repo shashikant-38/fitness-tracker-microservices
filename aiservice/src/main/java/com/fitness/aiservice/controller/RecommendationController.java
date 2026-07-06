@@ -15,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/recommendations")
 public class RecommendationController {
-    private final RecommendationService  recommendationService;
+     private final RecommendationService  recommendationService;
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Recommendation>> getUserRecommendation(@PathVariable String userId) {
