@@ -23,6 +23,6 @@ public class ActivityMessageListener {
         log.info("Type: {}", activity.getType());
         log.info("Calories: {}", activity.getCaloriesBurned());
 
-        activityAiService.generateRecommendation(activity);
+         activityAiService.generateRecommendation(activity);
     }
 }
