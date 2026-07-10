@@ -15,14 +15,14 @@ public class ActivityAiService {
 
      private final GeminiService geminiService;
 
-    public void generateRecommendation(Activity activity){
-        String prompt= createPromptForActivity(activity);//create this method .. at below
+    public void generateRecommendation(Activity activity) {
+        String prompt = createPromptForActivity(activity);//create this method .. at below
         String response = geminiService.getRecommendations(prompt);
 
         log.info("RESPONSE FROM AI {}", response);
 
     }
-    //prompt for AI ..
+    //prompt
     private String createPromptForActivity(Activity activity) {
         return String.format("""
         Analyze this fitness activity and provide detailed recommendations in the following EXACT JSON format:
