@@ -17,7 +17,7 @@ public class GeminiService {
     @Value("${gemini.api.url}")
     private String geminiApiUrl;
 
-    @Value("${gemini.api.key}" )
+     @Value("${gemini.api.key}" )
     private String geminiApiKey ;
 
 
@@ -40,7 +40,7 @@ public class GeminiService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block() ;
-//api call using resonse obj
+//api call using  resonse obj
         return response;
     }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 public class RecommendationService {
      private final RecommendationRepository recommendationRepository;
 
+
     public List<Recommendation> getUserRecommendation(String userId) {
         return recommendationRepository.findByUserId(userId);
     }
