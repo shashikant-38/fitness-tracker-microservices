@@ -10,8 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     /**
-     * WebClient for calli  ng the User Service itself via service name (through Eureka / load balancer).
-     * If you are not using Eureka, change the baseUrl to the actual host:port, e.g. http://localhost:8080.
+      * WebClient for calli  ng the User Service itself via service name (through Eureka / load balancer).
+      * If you are not using Eureka, change the baseUrl to the actual host:port, e.g. http://localhost:8080.
      */
     @Bean
     @LoadBalanced
