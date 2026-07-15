@@ -20,7 +20,7 @@ import java.util.Map;
 @Slf4j
 public class ActivityController {
 
-     private ActivityService activityService;
+    private ActivityService activityService;
     private ActivityRepository activityRepository;
     private MongoTemplate mongoTemplate;
 
