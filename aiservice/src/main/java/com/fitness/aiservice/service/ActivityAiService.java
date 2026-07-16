@@ -23,7 +23,6 @@ public class ActivityAiService {
 
     }
     //prompt FOR AI
-
     private String createPromptForActivity(Activity activity) {
         return String.format("""
         Analyze this fitness activity and provide detailed recommendations in the following EXACT JSON format:
