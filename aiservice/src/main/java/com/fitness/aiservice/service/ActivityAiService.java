@@ -51,11 +51,11 @@ public class ActivityAiService {
           ]
         }
 
-        Analyze this activity:
-        Activity Type: %s
-        Duration: %d minutes
-        Calories Burned: %d
-        Additional Metrics: %s
+         Analyze this activity:
+         Activity Type: %s
+         Duration: %d minutes
+         Calories Burned: %d
+         Additional Metrics: %s
         
         Provide detailed analysis focusing on performance, improvements, next workout suggestions, and safety guidelines.
         Ensure the response follows the EXACT JSON format shown above.
