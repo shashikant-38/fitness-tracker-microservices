@@ -1,6 +1,9 @@
 package com.fitness.aiservice.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fitness.activityservice.model.Activity;
+import com.fitness.aiservice.model.Recommendation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,13 +18,37 @@ public class ActivityAiService {
 
      private final GeminiService geminiService;
 
-    public void generateRecommendation(Activity activity) {
+    public Recommendation generateRecommendation(Activity activity) {
         String prompt = createPromptForActivity(activity);//create this method .. at below
-        String response = geminiService.getRecommendations(prompt);
+        String airesponse = geminiService.getRecommendations(prompt);
 
-        log.info("RESPONSE FROM AI {}", response);
-
+        log.info("RESPONSE FROM AI {}", airesponse);
+        return processAIResponse(activity,airesponse);
     }
+
+    private Recommendation processAIResponse(Activity activity, String airesponse) {
+            try{
+                ObjectMapper mapper =new ObjectMapper();
+                JsonNode rootNode=mapper.readTree(airesponse);
+                JsonNode textNode=rootNode.path("candidates")
+                        .get(0)
+                        .path("content")
+                        .path(0)
+                        .path("text");
+
+                String jsonContent = textNode.asText()
+                        .replaceAll("```json\\n","")
+                        .replaceAll("\\n```", "")
+                        .trim();
+//                log.info("RESPONSE FROM CLEANED AI {}", jsonContent);
+
+
+            }catch(Exception e){
+
+            }
+            return null;
+    }
+
     //prompt FOR AI
     private String createPromptForActivity(Activity activity) {
         return String.format("""
