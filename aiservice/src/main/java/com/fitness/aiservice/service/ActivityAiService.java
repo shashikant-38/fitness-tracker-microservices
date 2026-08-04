@@ -68,9 +68,24 @@ public class ActivityAiService {
     }
 
     private List<String> extractSafety(JsonNode safety) {
+
     }
 
-    private List<String> extractSuggestions(JsonNode suggestions) {
+    private List<String> extractSuggestions(JsonNode suggestionsNode) {
+        List<String> suggesstions= new ArrayList<>();
+
+        if(suggestionsNode.isArray()){
+            suggestionsNode.forEach(suggession ->{
+                String workout =suggession.path("workout").asText();
+                String description =suggession.path("description ").asText();
+                suggesstions.add(String.format("%s: %s",workout,description));
+            });
+        }
+        return suggesstions.isEmpty() ?
+                Collections.singletonList("No specific suggesions provided"):
+                suggesstions;
+
+
     }
 
     private List<String> extractImprovements(JsonNode improvementsNode) {
