@@ -82,7 +82,6 @@ public class ActivityAiService {
             }
 
     }
-
     private Recommendation createDefaultRecommendation(Activity activity) {
         return Recommendation.builder()
                 .activityId(activity.getId())
