@@ -67,8 +67,16 @@ public class ActivityAiService {
             return null;
     }
 
-    private List<String> extractSafety(JsonNode safety) {
+    private List<String> extractSafety(JsonNode safetyNode) {
+        List<String> safety = new ArrayList<>();
 
+        if (safetyNode.isArray()) {
+            safetyNode.forEach(item -> safety.add(item.asText()));
+        }
+
+        return safety.isEmpty() ?
+                Collections.singletonList("follow generic guidelines"):
+                safety;
     }
 
     private List<String> extractSuggestions(JsonNode suggestionsNode) {
