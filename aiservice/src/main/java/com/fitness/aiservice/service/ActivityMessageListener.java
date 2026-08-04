@@ -21,11 +21,6 @@ public class ActivityMessageListener {
             groupId = "activity-processor-group"
     )
     public void processActivity(Activity activity) {
-        log.info(" Activity received in AI service");
-        log.info("UserId: {}", activity.getUserId());
-        log.info("Type: {}", activity.getType());
-        log.info("Calories: {}", activity.getCaloriesBurned());
-         Recommendation recommendation = activityAiService.generateRecommendation(activity);
-         recommendationRepository.save(recommendation);
+
     }
 }
