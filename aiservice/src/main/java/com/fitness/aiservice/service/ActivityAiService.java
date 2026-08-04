@@ -14,7 +14,9 @@ import org.springframework.boot.jackson.JsonComponent;
 import org.springframework.stereotype.Service;
 
 import javax.print.DocFlavor;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -61,10 +63,40 @@ public class ActivityAiService {
                 List<String> suggestion= extractSuggestions (analysisJson.path("suggestions"));
                 List<String> safety= extractSafety (analysisJson.path("Safety"));
 
+                return Recommendation.builder()
+                        .activityId(activity.getId())
+                        .userId(activity.getUserId())
+                        .type(activity.getType().toString())
+                        .recommendation(fullAnalysis.toString().trim())
+                        .improvements(improvements)
+                        .suggesstions(suggestion)
+                        .safety(safety)
+                        .createdAt(LocalDateTime.now())
+                        .build();
+
             }catch(Exception e){
 
+                e.printStackTrace();
+                return createDefaultRecommendation(activity);
+
             }
-            return null;
+
+    }
+
+    private Recommendation createDefaultRecommendation(Activity activity) {
+        return Recommendation.builder()
+                .activityId(activity.getId())
+                .userId(activity.getUserId())
+                .type(activity.getType().toString())
+                .recommendation("Unable to generate detailed analysis")
+                .improvements(Collections.singletonList("Continue with you current routine"))
+                .suggesstions(Collections.singletonList("Consider consulting a fitness consultant "))
+                .safety(Arrays.asList(
+                        "Always warm up before exercise",
+                        "stay hydrated"
+                ))
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 
     private List<String> extractSafety(JsonNode safetyNode) {
