@@ -1,6 +1,10 @@
 spring:
   application:
     name: configserver
+
+server:
+  port : 8888
+
 profile:
   active : native
 cloud:
