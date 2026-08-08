@@ -2,6 +2,25 @@ eureka :
   client :
     serviceUrl :
       default-Zone: http://localhost:8761/eureka
+#api gateway routing to 1 port
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://USER-SERVICE
+          predicates:
+            - path=/api/users/**
+
+        - id: activity-service
+          uri: lb://ACTIVITY-SERVICE
+          predicates:
+            - path=/api/activities/**
+
+        - id: ai-service
+          uri: lb://AI-SERVICE
+          predicates:
+            - path=/api/recommendations/**
 
   server:
     port : 8080
