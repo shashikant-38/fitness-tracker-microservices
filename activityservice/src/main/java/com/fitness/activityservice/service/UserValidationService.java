@@ -22,14 +22,19 @@ public class UserValidationService {
         try {
             Boolean response = webClientBuilder.build()
                     .get()
-                    // 🔥 Use localhost for now (safe fix)
-                    .uri("http://localhost:8081/api/users/{userId}/validate", userId)
+                    .uri(
+                            "http://localhost:8081/api/users/{userId}/validate",
+                            userId
+                    )
                     .retrieve()
                     .bodyToMono(Boolean.class)
-                    .timeout(Duration.ofSeconds(3))   // ⏱ prevents hanging
+                    .timeout(Duration.ofSeconds(3))
                     .onErrorResume(ex -> {
-                        log.error("Error while calling User Service: {}", ex.getMessage());
-                        return Mono.just(false); // fallback
+                        log.error(
+                                "Error while calling User Service: {}",
+                                ex.getMessage()
+                        );
+                        return Mono.just(false);
                     })
                     .block();
 
@@ -38,8 +43,11 @@ public class UserValidationService {
             return Boolean.TRUE.equals(response);
 
         } catch (Exception e) {
-            log.error("User service is unreachable: {}", e.getMessage());
-            return false; // 🔥 prevents 500 error
+            log.error(
+                    "User service is unreachable: {}",
+                    e.getMessage()
+            );
+            return false;
         }
     }
 }
