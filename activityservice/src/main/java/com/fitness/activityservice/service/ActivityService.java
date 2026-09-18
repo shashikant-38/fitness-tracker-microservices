@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ActivityService {
 
-    private final ActivityRepository activityRepository;
-    private final UserValidationService userValidationService;
-    private final KafkaTemplate<String, Activity> kafkaTemplate;
+    private final ActivityRepository repository;
+    private final UserValidationService userValidator;
+    private final KafkaTemplate<String, Activity> kafkaProducer;
 
     @Value("${kafka.topic.name}")
     private String topicName;
@@ -28,9 +28,11 @@ public class ActivityService {
             log.info("===== START: trackActivity =====");
             log.info("Received activity request: {}", request);
 
-            // 🔍 Step 1: Validate user
+            // Step 1: Validate user
             log.info("Calling user validation service...");
-            boolean isValidUser = userValidationService.validateUser(request.getUserId());
+
+            boolean isValidUser = userValidator.validateUser(request.getUserId());
+
             log.info("User validation result: {}", isValidUser);
 
             if (!isValidUser) {
@@ -38,7 +40,7 @@ public class ActivityService {
                 throw new RuntimeException("Invalid User: " + request.getUserId());
             }
 
-            //  Step 2: Build entity
+            // Step 2: Build activity entity
             Activity activity = Activity.builder()
                     .userId(request.getUserId())
                     .type(request.getType())
@@ -48,27 +50,40 @@ public class ActivityService {
                     .additionalMetrics(request.getAdditionalMetrics())
                     .build();
 
+            // Step 3: Save activity to MongoDB
             log.info("Saving activity to MongoDB...");
 
-            //  Step 3: Save to DB
-            Activity savedActivity = activityRepository.save(activity);
+            Activity savedActivity = repository.save(activity);
 
-            log.info("Activity saved successfully. ID: {}", savedActivity.getId());
+            log.info(
+                    "Activity saved successfully. ID: {}",
+                    savedActivity.getId()
+            );
 
-            //  Step 4: Send to Kafka (non-blocking)
+            // Step 4: Send activity to Kafka
             try {
-                log.info("Sending activity to Kafka topic: {}", topicName);
+                log.info(
+                        "Sending activity to Kafka topic: {}",
+                        topicName
+                );
 
-                kafkaTemplate.send(topicName, savedActivity.getUserId(), savedActivity);
+                kafkaProducer.send(
+                        topicName,
+                        savedActivity.getUserId(),
+                        savedActivity
+                );
 
                 log.info("Kafka message sent successfully");
 
             } catch (Exception kafkaException) {
-                //  Do NOT fail API because of Kafka
-                log.error("Kafka send failed, but continuing...", kafkaException);
+                // Kafka failure should not fail the API request
+                log.error(
+                        "Kafka send failed, but continuing...",
+                        kafkaException
+                );
             }
 
-            //  Step 5: Return response
+            // Step 5: Convert entity to response
             ActivityResponse response = mapToResponse(savedActivity);
 
             log.info("Returning response: {}", response);
@@ -76,13 +91,13 @@ public class ActivityService {
 
             return response;
 
-        } catch (Exception e) {
-            log.error("🔥 ERROR in trackActivity()", e);
-            throw e;
+        } catch (Exception exception) {
+            log.error("ERROR in trackActivity()", exception);
+            throw exception;
         }
     }
 
-    // 🔁 Mapper method
+    // Mapper method
     private ActivityResponse mapToResponse(Activity activity) {
 
         ActivityResponse response = new ActivityResponse();
